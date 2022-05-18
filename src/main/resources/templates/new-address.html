@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add address</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container ml-3 mt-4">
+
+    <h2>New address</h2>
+
+    <form th:action="@{/addresses}" th:object="${address}" method="post"
+          class="mt-4">
+        <div class="form-group row">
+            <label for="street col-form-label col-sm-2">Street</label>
+            <input type="text" th:field="*{street}" id="street"
+                   class="form-control col-sm-6 ml-2" placeholder="street" />
+        </div>
+        <div class="form-group row">
+            <label for="number col-form-label col-sm-2">Number</label>
+            <input type="text" th:field="*{number}" id="number"
+                   class="form-control col-sm-6 ml-2" placeholder="number" />
+        </div>
+        <div class="form-group row">
+            <label for="box col-form-label col-sm-2">Box</label>
+            <input type="text" th:field="*{box}" id="box"
+                   class="form-control col-sm-6 ml-2" placeholder="box" />
+        </div>
+        <div class="form-group row">
+            <label for="zip col-form-label col-sm-2">Zip</label>
+            <input type="text" th:field="*{zip}" id="zip"
+                   class="form-control col-sm-6 ml-2" placeholder="zip" />
+        </div>
+        <div class="form-group row">
+            <label for="city col-form-label col-sm-2">City</label>
+            <input type="text" th:field="*{city}" id="city"
+                   class="form-control col-sm-6 ml-2" placeholder="city" />
+        </div>
+        <div class="form-group row">
+            <label for="country col-form-label col-sm-2">Country</label>
+            <input type="text" th:field="*{country}" id="country"
+                   class="form-control col-sm-6 ml-2" placeholder="country" />
+        </div>
+        <div class="form-group row">
+            <label for="type col-form-label col-sm-2">Type</label>
+            <input type="text" th:field="*{type}" id="type"
+                   class="form-control col-sm-6 ml-2" placeholder="type" />
+        </div>
+        <input type="submit" value="Save address"
+               class="btn btn-primary ml-2" />
+    </form>
+</div>
+</body>
+</html>
