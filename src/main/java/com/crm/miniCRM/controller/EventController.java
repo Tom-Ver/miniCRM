@@ -1,9 +1,7 @@
 package com.crm.miniCRM.controller;
 
-import com.crm.miniCRM.model.Address;
-import com.crm.miniCRM.model.Community;
+import com.crm.miniCRM.dto.EventDto;
 import com.crm.miniCRM.model.Event;
-import com.crm.miniCRM.model.persistence.AddressRepository;
 import com.crm.miniCRM.model.persistence.EventRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,21 +25,21 @@ public class EventController {
 
     @GetMapping
     public String getEvents(Model model) {
-        Iterable<Event> addresses = eventService.findAll();
+        Iterable<Event> events = eventService.findAll();
         List<EventDto> eventDtos = new ArrayList<>();
-        addresses.forEach(p-> eventDtos.add(convertToDto(p)));
+        events.forEach(p-> eventDtos.add(convertToDto(p)));
         model.addAttribute("events", eventDtos);
         return "events";
     }
 
     @GetMapping("/new")
-    public String newAddress(Model model) {
+    public String newEvent(Model model) {
         model.addAttribute("events", new EventDto());
         return "new-event";
     }
 
     @PostMapping
-    public String addAddress(EventDto event) {
+    public String addEvent(EventDto event) {
         eventService.save(convertToEntity(event));
 
         return "redirect:/events";
