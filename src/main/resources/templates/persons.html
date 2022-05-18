@@ -8,27 +8,39 @@
 
 </head>
 <body>
-	<table class="table col-md-6 ml-3">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>BirthDate</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="person : ${persons}">
-				<td th:text="${person.id}"></td>
-				<td th:text="${person.firstName}"></td>
-				<td th:text="${person.lastName}"></td>
-				<td th:text="${person.birthDay}"></td>
-			</tr>
-		</tbody>
-	</table>
+<div class="container-sm">
+	<div class="row">
+		<div class="col">
 
-	<p>
-		<a th:href="@{/persons/new}" class="btn btn-link">New person</a>
-	</p>
+		</div>
+
+		<div class="col-6">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th scope="col">Id</th>
+						<th scope="col">First Name</th>
+						<th scope="col">Last Name</th>
+						<th scope="col">BirthDate</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr scope="row" th:each="person : ${persons}">
+						<td th:text="${person.id}"></td>
+						<td th:text="${person.firstName}"></td>
+						<td th:text="${person.lastName}"></td>
+						<td th:text="${person.birthDay}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<p>
+				<a th:href="@{/persons/new}" class="btn btn-primary ml-2">New person</a>
+			</p>
+		</div>
+		<div class="col">
+
+		</div>
+	</div>
+</div>
 </body>
 </html>

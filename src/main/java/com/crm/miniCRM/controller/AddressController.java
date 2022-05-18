@@ -48,16 +48,28 @@ public class AddressController {
     }
 
     protected AddressDto convertToDto(Address entity) {
-        AddressDto dto = new AddressDto(entity.getID(), entity.getDescription());
+        AddressDto dto = new AddressDto(
+                entity.getId(),
+                entity.getStreet(),
+                entity.getNumber(),
+                entity.getBox(),
+                entity.getZip(),
+                entity.getCity(),
+                entity.getCountry(),
+                entity.getType());
         return dto;
     }
 
     protected Address convertToEntity(AddressDto dto) {
-        //29-06-1963
-
-        Address address = new Address(dto.getDescription());
+        Address address = new Address(dto.getStreet(),
+                dto.getNumber(),
+                dto.getBox(),
+                dto.getZip(),
+                dto.getCity(),
+                dto.getCountry(),
+                dto.getType());
         if (!StringUtils.isEmpty(dto.getId())) {
-            address.setID(dto.getId());
+            address.setId(dto.getId());
         }
         return address;
     }
