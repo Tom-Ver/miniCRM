@@ -34,7 +34,7 @@ public class EventController {
 
     @GetMapping("/new")
     public String newEvent(Model model) {
-        model.addAttribute("events", new EventDto());
+        model.addAttribute("event", new EventDto());
         return "new-event";
     }
 
