@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add person</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container ml-3 mt-4">
+
+    <h2>New member</h2>
+
+    <form th:action="@{/members}" th:object="${member}" method="post"
+          class="mt-4">
+        <div class="form-group row">
+            <label for="person_ID col-form-label col-sm-2">person_ID</label>
+            <input type="text" th:field="*{person_ID}" id="person_ID"
+                   class="form-control col-sm-6 ml-2" placeholder="person_ID" />
+        </div>
+        <div class="form-group row">
+            <label for="community_ID col-form-label col-sm-2">community_ID</label>
+            <input type="text" th:field="*{community_ID}" id="community_ID"
+                   class="form-control col-sm-6 ml-2" placeholder="community_ID" />
+        </div>
+        <div class="form-group row">
+            <label for="since col-form-label col-sm-2">Since</label>
+            <input type="text" th:field="*{since}" id="since"
+                   class="form-control col-sm-6 ml-2" placeholder="dd-mm-yyyy" />
+        </div>
+        <div class="form-group row">
+            <label for="until col-form-label col-sm-2">Until</label>
+            <input type="text" th:field="*{until}" id="until"
+                   class="form-control col-sm-6 ml-2" placeholder="dd-mm-yyyy" />
+        </div>
+        <input type="submit" value="Save member"
+               class="btn btn-primary ml-2" />
+
+    </form>
+</div>
+</body>
+</html>
