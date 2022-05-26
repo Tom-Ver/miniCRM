@@ -19,11 +19,10 @@
                 <option th:each="person : ${personList}" th:value="${person.id}" th:text="${person.firstName}"></option>
             </select>
         </div>
-        <div class="form-group row">
-            <select class="form-control" th:field="${member.community_ID}"  id="community_ID">
-                <option value="0">select community</option>
-                <option th:each="community : ${communityList}" th:value="${community.ID}" th:text="${community.description}"></option>
-            </select>
+        <div class="form-group row" hidden>
+            <label for="community_ID col-form-label col-sm-2">community_ID</label>
+            <input type="hidden" th:field="*{community_ID}" id="community_ID"
+                   class="form-control col-sm-6 ml-2" placeholder="community_ID" />
         </div>
         <div class="form-group row">
             <label for="since col-form-label col-sm-2">Since</label>
