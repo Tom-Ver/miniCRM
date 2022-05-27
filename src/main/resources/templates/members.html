@@ -18,16 +18,16 @@
             <table class="table table-striped table-sm">
                 <thead>
                 <tr>
-                    <th scope="col">Person Id</th>
-                    <th scope="col">Community Id</th>
+                    <th scope="col">Person</th>
+                    <th scope="col">Community</th>
                     <th scope="col">Since</th>
                     <th scope="col">Until</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr scope="row" th:each="member : ${members}">
-                    <td th:text="${member.person_ID}"></td>
-                    <td th:text="${member.community_ID}"></td>
+                    <td th:text="${personMap.get(member.person_ID)}"></td>
+                    <td th:text="${communityMap.get(member.community_ID)}"></td>
                     <td th:text="${member.since}"></td>
                     <td th:text="${member.until}"></td>
                 </tr>

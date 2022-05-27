@@ -16,7 +16,7 @@
         <div class="form-group row">
             <select class="form-control" th:field="${member.person_ID}"  id="person_ID">
                 <option value="0">select person</option>
-                <option th:each="person : ${personList}" th:value="${person.id}" th:text="${person.firstName}"></option>
+                <option th:each="person : ${personList}" th:value="${person.id}" th:text="${person.firstName + ' ' + person.getLastName()}"></option>
             </select>
         </div>
         <div class="form-group row">

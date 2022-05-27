@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/members")
@@ -33,7 +36,12 @@ public class MemberController {
     }
 
     @GetMapping
-    public String getMembers(Model model) { //should display names instead of id's, todo
+    public String getMembers(Model model) {
+        Map<Long,String> personMap = getPersonMap();
+        model.addAttribute("personMap", personMap);
+        Map<Long,String> communityMap = getCommunityMap();
+        model.addAttribute("communityMap", communityMap);
+
         Iterable<Member> members = memberService.findAll();
         List<MemberDto> memberDtos = new ArrayList<>();
         members.forEach(m-> memberDtos.add(convertToDto(m)));
@@ -41,8 +49,11 @@ public class MemberController {
         return "members";
     }
 
-    @GetMapping (value = "/by-community/{id}")
+    @GetMapping (value = "/members-by-community/{id}")
     public String getMembersByIdCommunity_ID(Model model, @PathVariable Long id) {
+        Map<Long,String> personMap = getPersonMap();
+        model.addAttribute("personMap", personMap);
+
         Iterable<Member> members = memberService.findAllByIdCommunity_ID(id);
         List<MemberDto> memberDtos = new ArrayList<>();
         members.forEach(m-> memberDtos.add(convertToDto(m)));
@@ -52,21 +63,26 @@ public class MemberController {
 
     @GetMapping("/new")
     public String newMember(Model model) {
-        model.addAttribute("member", new MemberDto());
         List<Person> personList = (List<Person>) personService.findAll();
         model.addAttribute("personList", personList);
         List<Community> communityList = (List<Community>) communityService.findAll();
         model.addAttribute("communityList", communityList);
+
+        MemberDto newMember = new MemberDto();
+        newMember.setSince(LocalDate.now());
+        model.addAttribute("member", newMember);
         return "new-member";
     }
 
     @GetMapping("/new-by-community/{id}")
-    public String newMember(Model model, @PathVariable Long id) {
-        MemberDto newMember = new MemberDto();
-        newMember.setCommunity_ID(id);
-        model.addAttribute("member", newMember);
+    public String newMemberByCommunity_ID(Model model, @PathVariable Long id) {
         List<Person> personList = (List<Person>) personService.findAll();
         model.addAttribute("personList", personList);
+
+        MemberDto newMember = new MemberDto();
+        newMember.setCommunity_ID(id);
+        newMember.setSince(LocalDate.now());
+        model.addAttribute("member", newMember);
         return "new-member-by-community";
     }
 
@@ -78,10 +94,10 @@ public class MemberController {
     }
 
     @PostMapping("/{id}")
-    public String addMemberToCommunity(MemberDto member) {  //not working, todo
+    public String addMemberToCommunity(MemberDto member) {
         memberService.save(convertToEntity(member));
 
-        return "redirect:/members-by-community";
+        return "redirect:/members/members-by-community/{id}";
     }
 
     protected MemberDto convertToDto(Member entity) {
@@ -100,4 +116,16 @@ public class MemberController {
         return member;
     }
 
+    protected Map<Long, String> getPersonMap(){
+        Map<Long,String> personMap = new HashMap<>();
+        Iterable<Person> persons = personService.findAll();
+        persons.forEach( p -> personMap.put(p.getId(), p.getFirstName() + " " + p.getLastName()));
+        return personMap;
+    }
+    protected Map<Long, String> getCommunityMap() {
+        Map<Long, String> communityMap = new HashMap<>();
+        Iterable<Community> communities = communityService.findAll();
+        communities.forEach(c -> communityMap.put(c.getID(), c.getDescription()));
+        return communityMap;
+    }
 }
