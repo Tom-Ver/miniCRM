@@ -10,9 +10,9 @@ import java.util.Objects;
 public class MemberID implements Serializable {
 
     @Column
-    private Long community_ID;
-    @Column
     private Long person_ID;
+    @Column
+    private Long community_ID;
 
     public MemberID(){}
     public MemberID(Long person_ID, Long community_ID) {

@@ -27,8 +27,8 @@ public class Person {
     @ManyToMany
     @JoinTable(
             name = "member",
-            joinColumns = @JoinColumn(name = "COMMUNITY_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "PERSON_ID", referencedColumnName = "ID"))
+            joinColumns = @JoinColumn(name = "PERSON_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "COMMUNITY_ID", referencedColumnName = "ID"))
     List<Community> member;
 
 
