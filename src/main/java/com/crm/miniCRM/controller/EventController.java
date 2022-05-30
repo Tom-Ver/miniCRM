@@ -1,7 +1,9 @@
 package com.crm.miniCRM.controller;
 
 import com.crm.miniCRM.dto.EventDto;
+import com.crm.miniCRM.model.Community;
 import com.crm.miniCRM.model.Event;
+import com.crm.miniCRM.model.persistence.CommunityRepository;
 import com.crm.miniCRM.model.persistence.EventRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +20,11 @@ import java.util.List;
 public class EventController {
 
     private EventRepository eventService;
+    private CommunityRepository communityService;
 
-    public EventController(EventRepository eventService) {
+    public EventController(EventRepository eventService, CommunityRepository communityService) {
         this.eventService = eventService;
+        this.communityService = communityService;
     }
 
     @GetMapping
@@ -34,6 +38,8 @@ public class EventController {
 
     @GetMapping("/new")
     public String newEvent(Model model) {
+        List<Community> communityList = (List<Community>) communityService.findAll();
+        model.addAttribute("communityList", communityList);
         model.addAttribute("event", new EventDto());
         return "new-event";
     }
@@ -47,6 +53,7 @@ public class EventController {
 
     protected EventDto convertToDto(Event entity) {
         EventDto dto = new EventDto(
+                entity.getCommunity(),
                 entity.getId(),
                 entity.getDescription(),
                 entity.getDate());
@@ -54,7 +61,9 @@ public class EventController {
     }
 
     protected Event convertToEntity(EventDto dto) {
-        Event event = new Event(dto.getDescription(),
+        Event event = new Event(
+                dto.getCommunity(),
+                dto.getDescription(),
                 dto.getDate());
         if (!StringUtils.isEmpty(dto.getId())) {
             event.setId(dto.getId());

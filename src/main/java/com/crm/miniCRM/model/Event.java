@@ -10,6 +10,11 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name="community_id")
+    private Community community;
+
     private String description;
     private LocalDate date;
 
@@ -17,12 +22,20 @@ public class Event {
 
 
     public Event(){}
-    public Event(String description, LocalDate date) {
+    public Event(Community community, String description, LocalDate date) {
+        this.community = community;
         this.description = description;
         this.date = date;
      //   this.time = time;
     }
 
+    public Community getCommunity() {
+        return community;
+    }
+
+    public void setCommunity(Community community) {
+        this.community = community;
+    }
 
     public String getDescription() {
         return description;
@@ -52,6 +65,7 @@ public class Event {
     public String toString() {
         return "Event{" +
                 "ID=" + id +
+                ", community='" + community + '\'' +
                 ", description='" + description + '\'' +
                 ", date=" + date +
                 //", time=" + time +

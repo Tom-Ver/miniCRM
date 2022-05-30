@@ -40,7 +40,7 @@ public class MiniCrmApplication {
 //Community
             extractCommunities(communityRepository);
 //Event
-            extractEvents(eventRepository);
+            extractEvents(eventRepository, communityRepository);
 //Member
             extractMembers(memberRepository);
 //PersonAddress
@@ -70,10 +70,10 @@ public class MiniCrmApplication {
         log.info("");
     }
 
-    private static void extractEvents(EventRepository eventRepository) {
-        eventRepository.save(new Event("kerstkaartjes 2020", LocalDate.of(2020, 12, 16)));
-        eventRepository.save(new Event("BBQ 2020", LocalDate.of(2020, 7, 21)));
-        eventRepository.save(new Event("doopfeest 2021", LocalDate.of(2021, 5, 31)));
+    private static void extractEvents(EventRepository eventRepository, CommunityRepository communityRepository) {
+        eventRepository.save(new Event(communityRepository.findById(1L),"kerstkaartjes 2020", LocalDate.of(2020, 12, 16)));
+        eventRepository.save(new Event(communityRepository.findById(2L),"BBQ 2020", LocalDate.of(2020, 7, 21)));
+        eventRepository.save(new Event(communityRepository.findById(3L),"doopfeest 2021", LocalDate.of(2021, 5, 31)));
 
         // fetch all events
         log.info("Event found with findAll():");

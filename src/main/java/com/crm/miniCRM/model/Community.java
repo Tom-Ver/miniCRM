@@ -13,6 +13,9 @@ public class Community {
     @ManyToMany(mappedBy = "member")
     private List<Person> member;
 
+    @OneToMany(mappedBy = "community")
+    private List<Event> events;
+
     private String description;
 
     public Community(){}
