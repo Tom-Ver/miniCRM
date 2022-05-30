@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value="/events")
@@ -49,6 +51,18 @@ public class EventController {
         eventService.save(convertToEntity(event));
 
         return "redirect:/events";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editEvent(Model model, @PathVariable Long id) {
+        List<Community> communityList = (List<Community>) communityService.findAll();
+        model.addAttribute("communityList", communityList);
+        Optional<Event> optionalEvent = eventService.findById(id);
+        if (optionalEvent.isPresent()){
+            Event event = optionalEvent.get();
+            model.addAttribute("event",convertToDto(event));
+        }
+        return "edit-event";
     }
 
     protected EventDto convertToDto(Event entity) {

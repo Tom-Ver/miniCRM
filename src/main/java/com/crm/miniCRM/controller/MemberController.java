@@ -3,6 +3,7 @@ package com.crm.miniCRM.controller;
 
 import com.crm.miniCRM.dto.MemberDto;
 import com.crm.miniCRM.model.Community;
+import com.crm.miniCRM.model.Event;
 import com.crm.miniCRM.model.Member;
 import com.crm.miniCRM.model.Person;
 import com.crm.miniCRM.model.persistence.CommunityRepository;
@@ -17,10 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/members")
@@ -53,7 +51,11 @@ public class MemberController {
     public String getMembersByIdCommunity_ID(Model model, @PathVariable Long id) {
         Map<Long,String> personMap = getPersonMap();
         model.addAttribute("personMap", personMap);
-
+        Optional<Community> optionalCommunity = communityService.findById(id);
+        if (optionalCommunity.isPresent()) {
+            String description = optionalCommunity.get().getDescription();
+            model.addAttribute("description", description);
+        }
         Iterable<Member> members = memberService.findAllByIdCommunity_ID(id);
         List<MemberDto> memberDtos = new ArrayList<>();
         members.forEach(m-> memberDtos.add(convertToDto(m)));
@@ -100,6 +102,29 @@ public class MemberController {
         return "redirect:/members/members-by-community/{id}";
     }
 
+    @GetMapping("/edit/{person_ID}/{community_ID}")
+    public String editMember(Model model, @PathVariable Long person_ID, @PathVariable Long community_ID) {
+        Optional<Member> optionalMember = memberService.findById(new MemberID(person_ID, community_ID));
+        if (optionalMember.isPresent()){
+            Member member = optionalMember.get();
+            model.addAttribute("member",convertToDto(member));
+            model.addAttribute("name", getPersonName(member));
+            model.addAttribute("description", getCommunityDescription(member));
+        }
+        return "edit-member";
+    }
+
+    @GetMapping("/edit-by-community/{person_ID}/{community_ID}")
+    public String editMemberByCommunity(Model model, @PathVariable Long person_ID, @PathVariable Long community_ID) {
+        Optional<Member> optionalMember = memberService.findById(new MemberID(person_ID, community_ID));
+        if (optionalMember.isPresent()){
+            Member member = optionalMember.get();
+            model.addAttribute("member",convertToDto(member));
+            model.addAttribute("name", getPersonName(member));
+        }
+        return "edit-member-by-community";
+    }
+
     protected MemberDto convertToDto(Member entity) {
         MemberDto dto = new MemberDto(
                 entity.getId(),
@@ -122,10 +147,29 @@ public class MemberController {
         persons.forEach( p -> personMap.put(p.getId(), p.getFirstName() + " " + p.getLastName()));
         return personMap;
     }
+
     protected Map<Long, String> getCommunityMap() {
         Map<Long, String> communityMap = new HashMap<>();
         Iterable<Community> communities = communityService.findAll();
         communities.forEach(c -> communityMap.put(c.getID(), c.getDescription()));
         return communityMap;
+    }
+
+    protected String getPersonName(Member member) {
+        String name = null;
+        Optional<Person> optionalPerson = personService.findById(member.getId().getPerson_ID());
+        if (optionalPerson.isPresent()) {
+            name = optionalPerson.get().getFirstName() + " " + optionalPerson.get().getLastName();
+        }
+        return name;
+    }
+
+    protected String getCommunityDescription(Member member) {
+        String description = null;
+        Optional<Community> optionalCommunity = communityService.findById(member.getId().getCommunity_ID());
+        if (optionalCommunity.isPresent()){
+            description = optionalCommunity.get().getDescription();
+        }
+        return description;
     }
 }

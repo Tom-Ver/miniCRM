@@ -7,12 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -26,7 +28,7 @@ public class CommunityController {
     }
 
     @GetMapping
-    public String getcommunities(Model model) {
+    public String getCommunities(Model model) {
         Iterable<Community> communities = communityService.findAll();
         List<CommunityDto> CommunityDtos = new ArrayList<>();
         communities.forEach(p -> CommunityDtos.add(convertToDto(p)));
@@ -35,19 +37,27 @@ public class CommunityController {
     }
 
     @GetMapping("/new")
-    public String newcommunity(Model model) {
+    public String newCommunity(Model model) {
         model.addAttribute("community", new CommunityDto());
         return "new-community";
     }
 
     @PostMapping
-    public String addcommunity(CommunityDto community) {
+    public String addCommunity(CommunityDto community) {
         communityService.save(convertToEntity(community));
 
         return "redirect:/communities";
     }
 
-    //
+    @GetMapping("/edit/{id}")
+    public String editCommunity(Model model, @PathVariable Long id) {
+        Optional<Community> optionalCommunity = communityService.findById(id);
+        if (optionalCommunity.isPresent()){
+            Community community = optionalCommunity.get();
+            model.addAttribute("community",convertToDto(community));
+        }
+        return "edit-community";
+    }
 
     protected CommunityDto convertToDto(Community entity) {
         CommunityDto dto = new CommunityDto(entity.getID(), entity.getDescription());
