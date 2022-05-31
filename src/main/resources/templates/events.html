@@ -23,6 +23,7 @@
                     <th scope="col">Date</th>
                     <th scope="col">Community</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,6 +33,7 @@
                     <td th:text="${event.date}"></td>
                     <td th:text="${event.community.description}"></td>
                     <td> <a th:href="@{/events/edit/{id}(id=${event.id})}" class="btn btn-link">edit</a> </td>
+                    <td> <a th:href="@{/events/delete/{id}(id=${event.id})}" class="btn btn-link">delete</a> </td>
                 </tr>
                 </tbody>
             </table>

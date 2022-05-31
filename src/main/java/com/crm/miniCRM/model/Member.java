@@ -12,15 +12,16 @@ import java.time.LocalDate;
 public class Member {
     @EmbeddedId
     private MemberID Id;
-
     private LocalDate since;
     private LocalDate until;//default 9999-21-31
+    private Boolean active;
 
     public Member(){}
     public Member(MemberID id, LocalDate since, LocalDate until) {
         Id = id;
         this.since = since;
         this.until = until;
+        this.active = true;
     }
     public Member (MemberID id, LocalDate since){
         this(id, since, LocalDate.of(9999,12,31));
@@ -48,6 +49,14 @@ public class Member {
 
     public void setUntil(LocalDate until) {
         this.until = until;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Override

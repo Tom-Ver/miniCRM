@@ -8,10 +8,7 @@ import com.crm.miniCRM.model.persistence.EventRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +30,14 @@ public class EventController {
     public String getEvents(Model model) {
         Iterable<Event> events = eventService.findAll();
         List<EventDto> eventDtos = new ArrayList<>();
-        events.forEach(p-> eventDtos.add(convertToDto(p)));
+        events.forEach(e -> { if(e.getActive()) {eventDtos.add(convertToDto(e));}});
         model.addAttribute("events", eventDtos);
         return "events";
     }
 
     @GetMapping("/new")
     public String newEvent(Model model) {
-        List<Community> communityList = (List<Community>) communityService.findAll();
+        List<Community> communityList = getActiveCommunities();
         model.addAttribute("communityList", communityList);
         model.addAttribute("event", new EventDto());
         return "new-event";
@@ -55,7 +52,7 @@ public class EventController {
 
     @GetMapping("/edit/{id}")
     public String editEvent(Model model, @PathVariable Long id) {
-        List<Community> communityList = (List<Community>) communityService.findAll();
+        List<Community> communityList = getActiveCommunities();
         model.addAttribute("communityList", communityList);
         Optional<Event> optionalEvent = eventService.findById(id);
         if (optionalEvent.isPresent()){
@@ -63,6 +60,25 @@ public class EventController {
             model.addAttribute("event",convertToDto(event));
         }
         return "edit-event";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteEvent(Model model, @PathVariable Long id) {
+        Optional<Event> optionalEvent = eventService.findById(id);
+        if (optionalEvent.isPresent()){
+            Event event = optionalEvent.get();
+            model.addAttribute("event",convertToDto(event));
+        }
+        return "delete-event";
+    }
+
+    @PostMapping("/delete")
+    public String deleteEvent(EventDto event) {
+        Event deletableEvent = convertToEntity(event);
+        deletableEvent.setActive(false);
+        eventService.save(deletableEvent);
+
+        return "redirect:/events";
     }
 
     protected EventDto convertToDto(Event entity) {
@@ -85,4 +101,10 @@ public class EventController {
         return event;
     }
 
+    protected List<Community> getActiveCommunities() {
+        List<Community> communityList = (List<Community>) communityService.findAll();
+        List<Community> filteredCommunityList = new ArrayList<>();
+        communityList.forEach(c -> { if(c.getActive()) {filteredCommunityList.add(c);}});
+        return filteredCommunityList;
+    }
 }

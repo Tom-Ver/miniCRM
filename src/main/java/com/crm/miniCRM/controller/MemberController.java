@@ -1,6 +1,7 @@
 package com.crm.miniCRM.controller;
 
 
+import com.crm.miniCRM.dto.EventDto;
 import com.crm.miniCRM.dto.MemberDto;
 import com.crm.miniCRM.model.Community;
 import com.crm.miniCRM.model.Event;
@@ -42,13 +43,13 @@ public class MemberController {
 
         Iterable<Member> members = memberService.findAll();
         List<MemberDto> memberDtos = new ArrayList<>();
-        members.forEach(m-> memberDtos.add(convertToDto(m)));
+        members.forEach(m-> { if(m.getActive()) {memberDtos.add(convertToDto(m));} });
         model.addAttribute("members", memberDtos);
         return "members";
     }
 
     @GetMapping (value = "/members-by-community/{id}")
-    public String getMembersByIdCommunity_ID(Model model, @PathVariable Long id) {
+    public String getMembersByIdCommunity(Model model, @PathVariable Long id) {
         Map<Long,String> personMap = getPersonMap();
         model.addAttribute("personMap", personMap);
         Optional<Community> optionalCommunity = communityService.findById(id);
@@ -58,16 +59,16 @@ public class MemberController {
         }
         Iterable<Member> members = memberService.findAllByIdCommunity_ID(id);
         List<MemberDto> memberDtos = new ArrayList<>();
-        members.forEach(m-> memberDtos.add(convertToDto(m)));
+        members.forEach(m-> { if(m.getActive()) {memberDtos.add(convertToDto(m));} });
         model.addAttribute("members", memberDtos);
         return "members-by-community";
     }
 
     @GetMapping("/new")
     public String newMember(Model model) {
-        List<Person> personList = (List<Person>) personService.findAll();
+        List<Person> personList = getActivePersons();
         model.addAttribute("personList", personList);
-        List<Community> communityList = (List<Community>) communityService.findAll();
+        List<Community> communityList = getActiveCommunities();
         model.addAttribute("communityList", communityList);
 
         MemberDto newMember = new MemberDto();
@@ -77,8 +78,8 @@ public class MemberController {
     }
 
     @GetMapping("/new-by-community/{id}")
-    public String newMemberByCommunity_ID(Model model, @PathVariable Long id) {
-        List<Person> personList = (List<Person>) personService.findAll();
+    public String newMemberByCommunity(Model model, @PathVariable Long id) {
+        List<Person> personList = getActivePersons();
         model.addAttribute("personList", personList);
 
         MemberDto newMember = new MemberDto();
@@ -123,6 +124,47 @@ public class MemberController {
             model.addAttribute("name", getPersonName(member));
         }
         return "edit-member-by-community";
+    }
+
+    @GetMapping("/delete/{person_ID}/{community_ID}")
+    public String deleteMember(Model model, @PathVariable Long person_ID, @PathVariable Long community_ID) {
+        Optional<Member> optionalMember = memberService.findById(new MemberID(person_ID, community_ID));
+        if (optionalMember.isPresent()){
+            Member member = optionalMember.get();
+            model.addAttribute("member",convertToDto(member));
+            model.addAttribute("name", getPersonName(member));
+            model.addAttribute("description", getCommunityDescription(member));
+        }
+        return "delete-member";
+    }
+
+    @PostMapping("/delete")
+    public String deleteMember(MemberDto member) {
+        Member deletableMember = convertToEntity(member);
+        deletableMember.setActive(false);
+        memberService.save(deletableMember);
+
+        return "redirect:/members";
+    }
+
+    @GetMapping("/delete-by-community/{person_ID}/{community_ID}")
+    public String deleteMemberByCommunity(Model model, @PathVariable Long person_ID, @PathVariable Long community_ID) {
+        Optional<Member> optionalMember = memberService.findById(new MemberID(person_ID, community_ID));
+        if (optionalMember.isPresent()){
+            Member member = optionalMember.get();
+            model.addAttribute("member",convertToDto(member));
+            model.addAttribute("name", getPersonName(member));
+        }
+        return "delete-member-by-community";
+    }
+
+    @PostMapping("/delete-by-community/{id}")
+    public String deleteMemberByCommunity(MemberDto member) {
+        Member deletableMember = convertToEntity(member);
+        deletableMember.setActive(false);
+        memberService.save(deletableMember);
+
+        return "redirect:/members/members-by-community/{id}";
     }
 
     protected MemberDto convertToDto(Member entity) {
@@ -171,5 +213,19 @@ public class MemberController {
             description = optionalCommunity.get().getDescription();
         }
         return description;
+    }
+
+    protected List<Person> getActivePersons() {
+        List<Person> personList = (List<Person>) personService.findAll();
+        List<Person> filteredPersonList = new ArrayList<>();
+        personList.forEach(p -> { if(p.getActive()) {filteredPersonList.add(p);}});
+        return filteredPersonList;
+    }
+
+    protected List<Community> getActiveCommunities() {
+        List<Community> communityList = (List<Community>) communityService.findAll();
+        List<Community> filteredCommunityList = new ArrayList<>();
+        communityList.forEach(c -> { if(c.getActive()) {filteredCommunityList.add(c);}});
+        return filteredCommunityList;
     }
 }

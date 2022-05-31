@@ -15,13 +15,14 @@ public class Community {
 
     @OneToMany(mappedBy = "community")
     private List<Event> events;
-
     private String description;
+    private Boolean active;
 
     public Community(){}
 
     public Community(String description) {
         this.description = description;
+        this.active = true;
     }
 
     public Long getID() {
@@ -38,6 +39,14 @@ public class Community {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Override

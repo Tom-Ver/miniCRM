@@ -23,6 +23,7 @@
                     <th scope="col">Since</th>
                     <th scope="col">Until</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,6 +33,7 @@
                     <td th:text="${member.since}"></td>
                     <td th:text="${member.until}"></td>
                     <td> <a th:href="@{/members/edit/{id1}/{id2}(id1=${member.getPerson_ID()},id2=${member.getCommunity_ID()})}" class="btn btn-link">edit</a> </td>
+                    <td> <a th:href="@{/members/delete/{id1}/{id2}(id1=${member.getPerson_ID()},id2=${member.getCommunity_ID()})}" class="btn btn-link">delete</a> </td>
                 </tr>
                 </tbody>
             </table>

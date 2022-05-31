@@ -15,13 +15,13 @@
         class="mt-4">
     <div class="form-group row">
       <label for="person_ID col-form-label col-sm-2">Person:&nbsp;</label>
-      <input type="text" th:field="${member.person_ID}" th:text="${name}" id="person_ID"
-             class="form-control col-sm-6 ml-2" placeholder="person_ID" hidden />
+      <input type="hidden" th:field="${member.person_ID}" th:text="${name}" id="person_ID"
+             class="form-control col-sm-6 ml-2" placeholder="person_ID" />
     </div>
     <div class="form-group row" hidden>
       <label for="community_ID col-form-label col-sm-2">Community_ID</label>
       <input type="hidden" th:field="${member.community_ID}" id="community_ID"
-             class="form-control col-sm-6 ml-2" placeholder="community_ID" hidden />
+             class="form-control col-sm-6 ml-2" placeholder="community_ID" />
     </div>
     <div class="form-group row">
       <label for="since col-form-label col-sm-2">Since</label>

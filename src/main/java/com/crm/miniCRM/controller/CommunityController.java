@@ -1,7 +1,9 @@
 package com.crm.miniCRM.controller;
 
 import com.crm.miniCRM.dto.CommunityDto;
+import com.crm.miniCRM.dto.EventDto;
 import com.crm.miniCRM.model.Community;
+import com.crm.miniCRM.model.Event;
 import com.crm.miniCRM.model.persistence.CommunityRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +32,9 @@ public class CommunityController {
     @GetMapping
     public String getCommunities(Model model) {
         Iterable<Community> communities = communityService.findAll();
-        List<CommunityDto> CommunityDtos = new ArrayList<>();
-        communities.forEach(p -> CommunityDtos.add(convertToDto(p)));
-        model.addAttribute("communities", CommunityDtos);
+        List<CommunityDto> communityDtos = new ArrayList<>();
+        communities.forEach(c -> { if(c.getActive()) {communityDtos.add(convertToDto(c));} });
+        model.addAttribute("communities", communityDtos);
         return "communities";
     }
 
@@ -57,6 +59,25 @@ public class CommunityController {
             model.addAttribute("community",convertToDto(community));
         }
         return "edit-community";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCommunity(Model model, @PathVariable Long id) {
+        Optional<Community> optionalCommunity = communityService.findById(id);
+        if (optionalCommunity.isPresent()){
+            Community community = optionalCommunity.get();
+            model.addAttribute("community",convertToDto(community));
+        }
+        return "delete-community";
+    }
+
+    @PostMapping("/delete")
+    public String deleteCommunity(CommunityDto community) {
+        Community deletableCommunity = convertToEntity(community);
+        deletableCommunity.setActive(false);
+        communityService.save(deletableCommunity);
+
+        return "redirect:/communities";
     }
 
     protected CommunityDto convertToDto(Community entity) {

@@ -36,6 +36,8 @@ public class Person {
     private String lastName;
     private LocalDate birthDay;
 
+    private Boolean active;
+
     protected Person() {
     }
 
@@ -43,6 +45,7 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;
+        this.active = true;
     }
 
     @Override
@@ -82,5 +85,13 @@ public class Person {
 
     public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

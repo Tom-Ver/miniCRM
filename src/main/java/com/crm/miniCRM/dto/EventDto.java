@@ -12,6 +12,8 @@ public class EventDto {
     private LocalDate date;
     //  private LocalTime time;
 
+    public EventDto(){}
+
     public EventDto(Community community, Long id, String description, LocalDate date) {
         this.community = community;
         this.id = id;
@@ -20,7 +22,13 @@ public class EventDto {
         //   this.time = time;
     }
 
-    public EventDto(){}
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Community getCommunity() {
         return community;
@@ -28,14 +36,6 @@ public class EventDto {
 
     public void setCommunity(Community community) {
         this.community = community;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getDescription() {

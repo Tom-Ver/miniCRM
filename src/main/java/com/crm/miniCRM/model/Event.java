@@ -3,7 +3,6 @@ package com.crm.miniCRM.model;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-
 @Entity
 @Table(name="event")
 public class Event {
@@ -14,19 +13,27 @@ public class Event {
     @ManyToOne
     @JoinColumn(name="community_id")
     private Community community;
-
     private String description;
     private LocalDate date;
+    private Boolean active;
 
     //  private LocalTime time;
-
 
     public Event(){}
     public Event(Community community, String description, LocalDate date) {
         this.community = community;
         this.description = description;
         this.date = date;
+        this.active = true;
      //   this.time = time;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Community getCommunity() {
@@ -53,7 +60,15 @@ public class Event {
         this.date = date;
     }
 
-//    public LocalTime getTime() {
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    //    public LocalTime getTime() {
 //        return time;
 //    }
 //
@@ -70,13 +85,5 @@ public class Event {
                 ", date=" + date +
                 //", time=" + time +
                 '}';
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 }

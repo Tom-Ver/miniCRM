@@ -29,13 +29,14 @@
 				<td th:text="${community.id}"></td>
 				<td th:text="${community.description}"></td>
 				<td> <a th:href="@{/communities/edit/{id}(id=${community.id})}" class="btn btn-link">edit</a> </td>
+				<td> <a th:href="@{/communities/delete/{id}(id=${community.id})}" class="btn btn-link">delete</a> </td>
 				<td> <a href="members.html" th:href="@{~/members/members-by-community/{id}(id=${community.id})}" class="btn btn-link">Check members</a> </td>
 			</tr>
 		</tbody>
 	</table>
 
 	<p>
-		<a th:href="@{/communities/new}" class="btn btn-link">New community</a>
+		<a th:href="@{/communities/new}" class="btn btn-primary ml-2">New community</a>
 	</p>
 		</div>
 		<div class="col">
