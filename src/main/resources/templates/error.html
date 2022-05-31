@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Error</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<a th:href="@{~/}" class="btn btn-link">home</a>
+
+<div class="container ml-3 mt-4">
+
+    <h4>Error</h4>
+    <h6 th:text="${errorMsg}"></h6>
+
+</div>
+</body>
+</html>

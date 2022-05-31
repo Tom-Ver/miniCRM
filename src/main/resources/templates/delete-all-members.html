@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Delete members</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<a th:href="@{~/}" class="btn btn-link">home</a>
+
+<div class="container ml-3 mt-4">
+
+    <h2>Delete members</h2>
+
+    <form th:action="@{/members/delete-all-members/{id}(id=${id})}" method="post"
+          class="mt-4">
+        <div class="form-group row">
+            <p>Delete all members from:&nbsp;</p>
+            <p th:text="${description}"></p>
+        </div>
+        <input type="submit" value="Delete members"
+               class="btn btn-primary ml-2" />
+        <a th:href="@{/members}" class="btn btn-primary ml-2">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

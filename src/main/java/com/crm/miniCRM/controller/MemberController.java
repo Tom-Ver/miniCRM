@@ -167,6 +167,23 @@ public class MemberController {
         return "redirect:/members/members-by-community/{id}";
     }
 
+    @GetMapping("/delete-all-members/{id}")
+    public String deleteAllMembersByCommunity(Model model, @PathVariable Long id) {
+        Optional<Community> optionalCommunity = communityService.findById(id);
+        if (optionalCommunity.isPresent()) {
+            String description = optionalCommunity.get().getDescription();
+            model.addAttribute("description", description);
+        }
+        return "delete-all-members";
+    }
+
+    @PostMapping("/delete-all-members/{id}")
+    public String deleteAllMembersByCommunity(@PathVariable Long id) {
+        Iterable<Member> deletableMembers = memberService.findAllByIdCommunity_ID(id);
+        memberService.deleteAll(deletableMembers);
+        return "redirect:/members/members-by-community/{id}";
+    }
+
     protected MemberDto convertToDto(Member entity) {
         MemberDto dto = new MemberDto(
                 entity.getId(),

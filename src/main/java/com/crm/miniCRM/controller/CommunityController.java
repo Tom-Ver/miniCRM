@@ -5,6 +5,8 @@ import com.crm.miniCRM.dto.EventDto;
 import com.crm.miniCRM.model.Community;
 import com.crm.miniCRM.model.Event;
 import com.crm.miniCRM.model.persistence.CommunityRepository;
+import com.crm.miniCRM.model.persistence.EventRepository;
+import com.crm.miniCRM.model.persistence.MemberRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -21,12 +23,16 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/communities")
-public class CommunityController {
+public class CommunityController extends ErrorController {
 
     private CommunityRepository communityService;
+    private MemberRepository memberService;
+    private EventRepository eventService;
 
-    public CommunityController(CommunityRepository communityService) {
+    public CommunityController(CommunityRepository communityService, MemberRepository memberService, EventRepository eventService) {
         this.communityService = communityService;
+        this.memberService = memberService;
+        this.eventService = eventService;
     }
 
     @GetMapping
@@ -62,11 +68,18 @@ public class CommunityController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteCommunity(Model model, @PathVariable Long id) {
+    public String deleteCommunity(Model model, @PathVariable Long id) throws Exception {
         Optional<Community> optionalCommunity = communityService.findById(id);
         if (optionalCommunity.isPresent()){
             Community community = optionalCommunity.get();
-            model.addAttribute("community",convertToDto(community));
+
+            if(!eventService.findAllByCommunity(community).isEmpty()) {
+                throw new Exception("Can't delete a community needed in an event, delete or change the event first!");
+            } else if(!memberService.findAllByIdCommunity_ID(community.getID()).isEmpty()){
+                throw new Exception("Can't delete a community with members, delete all members first!");
+            } else{
+                model.addAttribute("community",convertToDto(community));
+            }
         }
         return "delete-community";
     }
@@ -86,8 +99,6 @@ public class CommunityController {
     }
 
     protected Community convertToEntity(CommunityDto dto) {
-        //29-06-1963
-
         Community community = new Community(dto.getDescription());
         if (!StringUtils.isEmpty(dto.getId())) {
             community.setID(dto.getId());
