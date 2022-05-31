@@ -180,7 +180,8 @@ public class MemberController {
     @PostMapping("/delete-all-members/{id}")
     public String deleteAllMembersByCommunity(@PathVariable Long id) {
         Iterable<Member> deletableMembers = memberService.findAllByIdCommunity_ID(id);
-        memberService.deleteAll(deletableMembers);
+        deletableMembers.forEach(m -> m.setActive(false));
+        memberService.saveAll(deletableMembers);
         return "redirect:/members/members-by-community/{id}";
     }
 

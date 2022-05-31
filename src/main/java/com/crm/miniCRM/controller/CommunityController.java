@@ -73,9 +73,9 @@ public class CommunityController extends ErrorController {
         if (optionalCommunity.isPresent()){
             Community community = optionalCommunity.get();
 
-            if(!eventService.findAllByCommunity(community).isEmpty()) {
+            if(eventService.findAllByCommunity(community).stream().filter(c -> c.getActive().equals(true)).findAny().orElse(null) != null) {
                 throw new Exception("Can't delete a community needed in an event, delete or change the event first!");
-            } else if(!memberService.findAllByIdCommunity_ID(community.getID()).isEmpty()){
+            } else if(memberService.findAllByIdCommunity_ID(community.getID()).stream().filter(c -> c.getActive().equals(true)).findAny().orElse(null) != null){
                 throw new Exception("Can't delete a community with members, delete all members first!");
             } else{
                 model.addAttribute("community",convertToDto(community));
