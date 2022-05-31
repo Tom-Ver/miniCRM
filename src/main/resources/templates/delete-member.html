@@ -7,6 +7,9 @@
 
 </head>
 <body>
+
+<a th:href="@{~/}" class="btn btn-link">home</a>
+
 <div class="container ml-3 mt-4">
 
     <h2>Delete member</h2>
@@ -35,7 +38,7 @@
         </div>
         <input type="submit" value="Delete member"
                class="btn btn-primary ml-2" />
-
+        <a th:href="@{/members}" class="btn btn-primary ml-2">Cancel</a>
     </form>
 </div>
 </body>

@@ -7,6 +7,9 @@
 
 </head>
 <body>
+
+<a th:href="@{~/}" class="btn btn-link">home</a>
+
 <div class="container ml-3 mt-4">
 
     <h2>New community</h2>
@@ -20,7 +23,7 @@
         </div>
         <input type="submit" value="Save community"
                class="btn btn-primary ml-2" />
-
+        <a th:href="@{/communities}" class="btn btn-primary ml-2">Cancel</a>
     </form>
 </div>
 </body>
