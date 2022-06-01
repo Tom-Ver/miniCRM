@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Personaddress</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<a th:href="@{~/}" class="btn btn-link">home</a>
+
+<div class="container-sm">
+    <div class="row">
+        <div class="col">
+
+        </div>
+
+        <div class="col-6">
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Person</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Type</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr scope="row" th:each="personaddress : ${personaddresses}">
+                    <td th:text="${personMap.get(personaddress.person_ID)}"></td>
+                    <td th:text="${addressMap.get(personaddress.address_ID)}"></td>
+                    <td th:text="${personaddress.email}"></td>
+                    <td th:text="${personaddress.phone}"></td>
+                    <td th:text="${personaddress.mobile}"></td>
+                    <td th:text="${personaddress.type}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

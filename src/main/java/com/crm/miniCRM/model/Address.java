@@ -112,4 +112,14 @@ public class Address {
                 ", type='" + type + '\'' +
                 '}';
     }
+
+    public String toStringForPersonAddress() {
+        return  street +" "+
+                number +" "+
+                box +" "+
+                zip +" "+
+                city +" "+
+                country;
+
+    }
 }
