@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.crm.miniCRM.dto.PersonDto;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -49,7 +51,15 @@ public class PersonController {
         return "redirect:/persons";
     }
 
-    //
+    @GetMapping("edit/{person_ID}")
+    public String editPerson(Model model, @PathVariable Long person_ID){
+        Optional<Person> personOptional = personService.findById(person_ID);
+        if(personOptional.isPresent()){
+            Person person = personOptional.get();
+            model.addAttribute("person", person);
+        }
+        return "edit-person";
+    }
 
     protected PersonDto convertToDto(Person entity) {
         PersonDto dto = new PersonDto(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getBirthDay().toString());

@@ -59,7 +59,10 @@
 						<td th:text="${person.id}"></td>
 						<td th:text="${person.firstName}"></td>
 						<td th:text="${person.lastName}"></td>
-						<td th:text="${person.birthDay}"></td>
+						<td th:text="${person.birthDay}">
+						<td>
+							<a th:href="@{/persons/edit/{id1}/(id1=${person.getId()})}" class="btn btn-warning">edit</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>
