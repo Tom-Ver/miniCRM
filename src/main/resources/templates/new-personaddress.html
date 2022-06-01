@@ -23,7 +23,27 @@
             </select>
         </div>
         <div class="form-group row">
-            <select class="form-control" th:field="${personaddress.address_ID}"  id="community_ID">
+            <label for="email col-form-label col-sm-2">E-Mail</label>
+            <input type="text" th:field="*{email}" id="email"
+                   class="form-control col-sm-6 ml-2" placeholder="email" />
+        </div>
+        <div class="form-group row">
+            <label for="phone col-form-label col-sm-2">Phone</label>
+            <input type="text" th:field="*{phone}" id="phone"
+                   class="form-control col-sm-6 ml-2" placeholder="phone" />
+        </div>
+        <div class="form-group row">
+            <label for="mobile col-form-label col-sm-2">Mobile</label>
+            <input type="text" th:field="*{mobile}" id="mobile"
+                   class="form-control col-sm-6 ml-2" placeholder="mobile" />
+        </div>
+        <div class="form-group row">
+            <label for="type col-form-label col-sm-2">Type</label>
+            <input type="text" th:field="*{type}" id="type"
+                   class="form-control col-sm-6 ml-2" placeholder="type" />
+        </div>
+        <div class="form-group row">
+            <select class="form-control" th:field="${personaddress.address_ID}"  id="address_ID">
                 <option value="0">select address</option>
                 <option th:each="address : ${addressList}" th:value="${address.id}" th:text="${address.toStringForPersonAddress()}"></option>
             </select>

@@ -45,7 +45,7 @@ public class PersonAddressController {
     }
 
     @GetMapping("/new")
-    public String addNewPersonWithAddress(Model model){
+    public String addPersonWithAddress(Model model){
         List<Person> personList = getActivePersons();
         model.addAttribute("personList", personList);
         List<Address> addressList = getAdresses();
