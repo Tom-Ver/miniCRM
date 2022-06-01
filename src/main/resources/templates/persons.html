@@ -61,7 +61,8 @@
 						<td th:text="${person.lastName}"></td>
 						<td th:text="${person.birthDay}">
 						<td>
-							<a th:href="@{/persons/edit/{id1}/(id1=${person.getId()})}" class="btn btn-warning">edit</a>
+							<a th:href="@{/persons/edit/{id1}/(id1=${person.getId()})}" class="btn btn-warning">Edit</a>
+							<a th:href="@{/persons/delete/{id1}/(id1=${person.getId()})}" class="btn btn-danger">Delete</a>
 						</td>
 					</tr>
 				</tbody>

@@ -61,6 +61,25 @@ public class PersonController {
         return "edit-person";
     }
 
+    @GetMapping("delete/{person_ID}")
+    public String deletePerson(Model model, @PathVariable Long person_ID) {
+        Optional<Person> personOptional = personService.findById(person_ID);
+        if(personOptional.isPresent()){
+            Person person = personOptional.get();
+            model.addAttribute("person", convertToDto(person));
+        }
+        return "delete-person";
+
+    }
+    @PostMapping("/delete")
+    public String deletePerson(PersonDto personDto){
+        Person deletePerson = convertToEntity(personDto);
+        deletePerson.setActive(false);
+        personService.save(deletePerson);
+
+        return "redirect:/persons";
+    }
+
     protected PersonDto convertToDto(Person entity) {
         PersonDto dto = new PersonDto(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getBirthDay().toString());
          return dto;
