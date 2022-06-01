@@ -16,6 +16,8 @@ public class Address {
     @ManyToMany(mappedBy = "person_address")
     List<Person> person_address;
 
+
+
     private String street;
     private String number;
     private String box;

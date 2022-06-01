@@ -11,6 +11,8 @@ public class PersonAddress implements Serializable {
     @EmbeddedId
     private PersonAddressID Id;
 
+
+
     private String email;
     private String phone;
     private String mobile;
@@ -26,6 +28,7 @@ public class PersonAddress implements Serializable {
         this.mobile = mobile;
         this.type = type;
     }
+
 
     public PersonAddressID getId() {
         return Id;

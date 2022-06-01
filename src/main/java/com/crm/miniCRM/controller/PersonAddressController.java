@@ -1,25 +1,23 @@
 package com.crm.miniCRM.controller;
 
 
+import com.crm.miniCRM.dto.AddressDto;
+import com.crm.miniCRM.dto.MemberDto;
 import com.crm.miniCRM.dto.PersonAddressDto;
-import com.crm.miniCRM.model.Address;
-import com.crm.miniCRM.model.Person;
-import com.crm.miniCRM.model.PersonAddress;
-import com.crm.miniCRM.model.persistence.AddressRepository;
-import com.crm.miniCRM.model.persistence.PersonAddressRepository;
-import com.crm.miniCRM.model.persistence.PersonRepository;
+import com.crm.miniCRM.dto.PersonDto;
+import com.crm.miniCRM.model.*;
+import com.crm.miniCRM.model.persistence.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
-@RequestMapping(value="/personaddress")
+@RequestMapping(value="/personaddresses")
 public class PersonAddressController {
     private PersonAddressRepository personAddressService;
     private PersonRepository personService;
@@ -31,6 +29,7 @@ public class PersonAddressController {
         this.addressService = addressService;
     }
 
+    //List of all persons with their addresses
     @GetMapping
     public String getPersonAddresses(Model model){
         Map<Long,String> personMap = getPersonMap();
@@ -45,6 +44,23 @@ public class PersonAddressController {
         return "personaddresses";
     }
 
+    @GetMapping("/new")
+    public String addNewPersonWithAddress(Model model){
+        List<Person> personList = getActivePersons();
+        model.addAttribute("personList", personList);
+        List<Address> addressList = getAdresses();
+        model.addAttribute(addressList);
+        model.addAttribute("personaddress", new PersonAddressDto());
+        return "new-personaddress";
+    }
+    @PostMapping
+    public String addPersonAddress(PersonAddressDto personAddressDto) {
+        personAddressService.save(convertToEntity(personAddressDto));
+        return "redirect:/personaddresses";
+    }
+
+
+
 
     protected PersonAddressDto convertToDto(PersonAddress entity) {
         PersonAddressDto dto = new PersonAddressDto(
@@ -54,6 +70,16 @@ public class PersonAddressController {
                 entity.getMobile(),
                 entity.getType());
         return dto;
+    }
+
+    protected PersonAddress convertToEntity(PersonAddressDto dto){
+        PersonAddress personAddress = new PersonAddress(
+                new PersonAddressID(dto.getPerson_ID(), dto.getAddress_ID()),
+                dto.getEmail(),
+                dto.getPhone(),
+                dto.getMobile(),
+                dto.getType());
+        return personAddress;
     }
 
     protected Map<Long, String> getAddressMap() {
@@ -70,4 +96,32 @@ public class PersonAddressController {
         return personMap;
     }
 
+    protected String getPersonName(PersonAddress personAddress) {
+        String name = null;
+        Optional<Person> optionalPerson = personService.findById(personAddress.getId().getPerson_ID());
+        if (optionalPerson.isPresent()) {
+            name = optionalPerson.get().getFirstName() + " " + optionalPerson.get().getLastName();
+        }
+        return name;}
+
+    protected String getAddressDescription(PersonAddress personAddress) {
+        String description = null;
+        Optional<Address> optionalAddress = addressService.findById(personAddress.getId().getAddress_ID());
+        if (optionalAddress.isPresent()){
+            description = optionalAddress.get().toStringForPersonAddress();
+        }
+        return description;
+    }
+
+    protected List<Person> getActivePersons() {
+        List<Person> personList = (List<Person>) personService.findAll();
+        List<Person> filteredPersonList = new ArrayList<>();
+        personList.forEach(p -> { if(p.getActive()) {filteredPersonList.add(p);}});
+        return filteredPersonList;
+    }
+
+    protected List<Address> getAdresses() {
+        List<Address> addressList = (List<Address>) addressService.findAll();
+        return addressList;
+    }
 }
