@@ -39,6 +39,7 @@
                     <td th:text="${personaddress.phone}"></td>
                     <td th:text="${personaddress.mobile}"></td>
                     <td th:text="${personaddress.type}"></td>
+                    <td> <a th:href="@{/personaddresses/edit/{id1}/{id2}(id1=${personaddress.getPerson_ID()},id2=${personaddress.getAddress_ID()})}" class="btn btn-link">edit</a> </td>
                 </tr>
                 </tbody>
             </table>

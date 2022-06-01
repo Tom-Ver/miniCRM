@@ -92,7 +92,6 @@ public class MemberController {
     @PostMapping
     public String addMember(MemberDto member) {
         memberService.save(convertToEntity(member));
-
         return "redirect:/members";
     }
 

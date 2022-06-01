@@ -59,6 +59,18 @@ public class PersonAddressController {
         return "redirect:/personaddresses";
     }
 
+    @GetMapping("/edit/{person_ID}/{address_ID}")
+    public String editPersonAddress(Model model, @PathVariable Long person_ID, @PathVariable Long address_ID){
+        Optional<PersonAddress> optionalPersonAddress = personAddressService.findById(new PersonAddressID(person_ID, address_ID));
+        if(optionalPersonAddress.isPresent()){
+            PersonAddress personAddress = optionalPersonAddress.get();
+            model.addAttribute("personAddress", convertToDto(personAddress));
+            model.addAttribute("address", getAddressDescription(personAddress));
+            model.addAttribute("name", getPersonName(personAddress));
+        }
+        return "edit-personaddress";
+    }
+
 
 
 
@@ -119,6 +131,7 @@ public class PersonAddressController {
         personList.forEach(p -> { if(p.getActive()) {filteredPersonList.add(p);}});
         return filteredPersonList;
     }
+
 
     protected List<Address> getAdresses() {
         List<Address> addressList = (List<Address>) addressService.findAll();
