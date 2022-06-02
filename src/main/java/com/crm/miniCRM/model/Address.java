@@ -26,6 +26,15 @@ public class Address {
     private String country;
     private String type;
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    private boolean active;
     public Address(){}
 
     public Address(String street, String number, String box, String zip, String city, String country, String type) {
@@ -36,6 +45,7 @@ public class Address {
         this.city = city;
         this.country = country;
         this.type = type;
+        this.active = true;
     }
 
     public Long getId() {

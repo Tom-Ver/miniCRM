@@ -68,6 +68,10 @@
                     <td th:text="${address.city}"></td>
                     <td th:text="${address.country}"></td>
                     <td th:text="${address.type}"></td>
+                    <td>
+                        <a th:href="@{/addresses/edit/{id1}(id1=${address.getId()})}" class="btn btn-warning">edit</a>
+                        <a th:href="@{/addresses/delete/{id1}(id1=${address.getId()})}" class="btn btn-danger">delete</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

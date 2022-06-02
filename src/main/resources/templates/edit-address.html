@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit address</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{~/}">MiniCRM by Klara & Tom</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/persons/}">Persons</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/communities/}">Communities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/addresses/}">Addresses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/events/}">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/members/}">Memberships</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/personaddresses/}">Personaddresses</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container ml-3 mt-4">
+
+    <h2>Edit address</h2>
+
+    <form th:action="@{/addresses}" th:object="${address}" method="post"
+          class="mt-4">
+        <div class="form-group row" hidden>
+            <label for="id col-form-label col-sm-2">Id</label>
+            <input type="hidden" th:field="*{id}" id="id col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="id" />
+        </div>
+        <div class="form-group row">
+            <label for="street col-form-label col-sm-2">Street</label>
+            <input type="text" th:field="*{street}" id="street col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="street" />
+        </div>
+        <div class="form-group row">
+            <label for="number col-form-label col-sm-2">Number</label>
+            <input type="text" th:field="*{number}" id="number col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="number" />
+        </div>
+        <div class="form-group row">
+            <label for="box col-form-label col-sm-2">Box</label>
+            <input type="text" th:field="*{box}" id="box col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="box" />
+        </div>
+        <div class="form-group row">
+            <label for="city col-form-label col-sm-2">City</label>
+            <input type="text" th:field="*{city}" id="city col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="city" />
+        </div>
+        <div class="form-group row">
+            <label for="zip col-form-label col-sm-2">Zip</label>
+            <input type="text" th:field="*{zip}" id="zip col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="3000" />
+        </div>
+        <div class="form-group row">
+            <label for="country col-form-label col-sm-2">Country</label>
+            <input type="text" th:field="*{country}" id="country col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="country" />
+        </div>
+        <div class="form-group row">
+            <label for="type col-form-label col-sm-2">Type</label>
+            <input type="text" th:field="*{type}" id="type col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="type" />
+        </div>
+        <input type="submit" value="Save address"
+               class="btn btn-primary ml-2" />
+        <a th:href="@{/addresses}" class="btn btn-primary ml-2">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

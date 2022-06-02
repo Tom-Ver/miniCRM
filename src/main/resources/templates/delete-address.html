@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Delete event</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{~/}">MiniCRM by Klara & Tom</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/persons/}">Persons</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/communities/}">Communities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/addresses/}">Addresses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/events/}">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/members/}">Memberships</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/personaddresses/}">Personaddresses</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container ml-3 mt-4">
+
+    <h2>Delete Address</h2>
+
+    <form th:action="@{/addresses/delete}" th:object="${address}" method="post"
+          class="mt-4">
+        <div class="form-group row" hidden>
+            <label for="id col-form-label col-sm-2">id</label>
+            <input type="hidden" th:field="*{id}" id="id"
+                   class="form-control col-sm-6 ml-2" placeholder="id" />
+        </div>
+        <div class="form-group row">
+            <label for="street col-form-label col-sm-2">Street&nbsp;</label>
+            <input type="hidden" th:field="*{street}" th:text="*{street}" id="street col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="Street" />
+        </div>
+        <div class="form-group row">
+            <label for="number col-form-label col-sm-2">Number</label>
+            <input type="hidden" th:field="*{number}" th:text="*{number}" id="Number"
+                   class="form-control col-sm-6 ml-2" placeholder="number" />
+        </div>
+        <div class="form-group row">
+            <label for="box col-form-label col-sm-2">Box</label>
+            <input type="hidden" th:field="*{box}" th:text="*{box}" id="box col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="box" />
+        </div>
+        <div class="form-group row">
+            <label for="city col-form-label col-sm-2">City</label>
+            <input type="hidden" th:field="*{city}" th:text="*{city}" id="city col-form-label col-sm-2 col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="city" />
+        </div>
+        <div class="form-group row">
+            <label for="box col-form-label col-sm-2">Zip</label>
+            <input type="hidden" th:field="*{zip}" th:text="*{zip}" id="zip col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="zip" />
+        </div>
+        <div class="form-group row">
+            <label for="country col-form-label col-sm-2">Country</label>
+            <input type="hidden" th:field="*{country}" th:text="*{country}" id="country col-form-label col-sm-2"
+                   class="form-control col-sm-6 ml-2" placeholder="country" />
+        </div>
+        <input type="submit" value="Delete address"
+               class="btn btn-primary ml-2" />
+        <a th:href="@{/addressess}" class="btn btn-primary ml-2">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
