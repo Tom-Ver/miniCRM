@@ -62,6 +62,8 @@ public class PersonAddressController {
     @GetMapping("/edit/{person_ID}/{address_ID}")
     public String editPersonAddress(Model model, @PathVariable Long person_ID, @PathVariable Long address_ID){
         Optional<PersonAddress> optionalPersonAddress = personAddressService.findById(new PersonAddressID(person_ID, address_ID));
+        List<Address> addressList = getAdresses();
+        model.addAttribute(addressList);
         if(optionalPersonAddress.isPresent()){
             PersonAddress personAddress = optionalPersonAddress.get();
             model.addAttribute("personAddress", convertToDto(personAddress));
@@ -70,6 +72,7 @@ public class PersonAddressController {
         }
         return "edit-personaddress";
     }
+
 
 
 
@@ -104,7 +107,11 @@ public class PersonAddressController {
     protected Map<Long, String> getPersonMap(){
         Map<Long,String> personMap = new HashMap<>();
         Iterable<Person> persons = personService.findAll();
-        persons.forEach( p -> personMap.put(p.getId(), p.getFirstName() + " " + p.getLastName()));
+        persons.forEach( p -> {
+            if(p.getActive()){
+                personMap.put(p.getId(), p.getFirstName() + " " + p.getLastName());
+            }
+        });
         return personMap;
     }
 

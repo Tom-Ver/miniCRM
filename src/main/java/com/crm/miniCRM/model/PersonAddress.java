@@ -10,14 +10,10 @@ import java.io.Serializable;
 public class PersonAddress implements Serializable {
     @EmbeddedId
     private PersonAddressID Id;
-
-
-
     private String email;
     private String phone;
     private String mobile;
     private char    type;
-
 
 
     public PersonAddress(){}

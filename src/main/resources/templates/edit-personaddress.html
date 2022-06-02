@@ -40,7 +40,7 @@
 
 <div class="container ml-3 mt-4">
 
-    <h2>Edit member</h2>
+    <h2>Edit Personaddress</h2>
 
     <form th:action="@{/personaddresses}" th:object="${personAddress}" method="post"
           class="mt-4">
@@ -50,9 +50,10 @@
                    class="form-control col-sm-6 ml-2" placeholder="person_ID" />
         </div>
         <div class="form-group row">
-            <label for="address col-form-label col-sm-2">Address:&nbsp;</label>
-            <input type="hidden" th:field="${personAddress.address_ID}" th:text="${address}" id="address"
-                   class="form-control col-sm-6 ml-2" placeholder="address" />
+            <select class="form-control" th:field="${personAddress.address_ID}"  id="address_ID">
+                <option value="0">select address</option>
+                <option th:each="address : ${addressList}" th:value="${address.id}" th:text="${address.toStringForPersonAddress()}"></option>
+            </select>
         </div>
         <div class="form-group row">
             <label for="email col-form-label col-sm-2">email</label>
