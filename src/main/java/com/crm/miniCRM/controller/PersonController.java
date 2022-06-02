@@ -1,10 +1,8 @@
 package com.crm.miniCRM.controller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.crm.miniCRM.dto.PersonDto;
@@ -30,13 +28,19 @@ public class PersonController {
     }
 
     @GetMapping
-    public String getpersons(Model model) {
+    public String getPersons(Model model) {
         Iterable<Person> persons = personService.findAll();
         List<PersonDto> personDtos = new ArrayList<>();
-        persons.forEach(p -> personDtos.add(convertToDto(p)));
+        for (Person p : persons) {
+            if(p.getActive()){
+                personDtos.add(convertToDto(p));
+            }
+        }
         model.addAttribute("persons", personDtos);
         return "persons";
     }
+
+
 
     @GetMapping("/new")
     public String newperson(Model model) {
@@ -87,10 +91,12 @@ public class PersonController {
 
     protected Person convertToEntity(PersonDto dto) {
         //29-06-1963
-        int year = Integer.parseInt(dto.getBirthDay().toString().substring(6,10));
-        int month = Integer.parseInt(dto.getBirthDay().toString().substring(3,5));
-        int day = Integer.parseInt(dto.getBirthDay().toString().substring(0,2));
-        Person person = new Person(dto.getFirstName(), dto.getLastName(), LocalDate.of(year, month, day));
+        //int year = Integer.parseInt(dto.getBirthDay().toString().substring(6,10));
+        //int month = Integer.parseInt(dto.getBirthDay().toString().substring(3,5));
+        //int day = Integer.parseInt(dto.getBirthDay().toString().substring(0,2));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate birth = LocalDate.parse(dto.getBirthDay(), formatter);
+        Person person = new Person(dto.getFirstName(), dto.getLastName(), birth);
         if (!StringUtils.isEmpty(dto.getId())) {
             person.setId(dto.getId());
         }
