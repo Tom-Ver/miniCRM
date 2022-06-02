@@ -86,7 +86,7 @@ public class PersonController {
     }
 
     protected PersonDto convertToDto(Person entity) {
-        PersonDto dto = new PersonDto(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getBirthDay().toString());
+        PersonDto dto = new PersonDto(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getBirthDay());
          return dto;
     }
 
@@ -95,9 +95,9 @@ public class PersonController {
         //int year = Integer.parseInt(dto.getBirthDay().toString().substring(6,10));
         //int month = Integer.parseInt(dto.getBirthDay().toString().substring(3,5));
         //int day = Integer.parseInt(dto.getBirthDay().toString().substring(0,2));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate birth = LocalDate.parse(dto.getBirthDay(), formatter);
-        Person person = new Person(dto.getFirstName(), dto.getLastName(), birth);
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        //LocalDate birth = LocalDate.parse(dto.getBirthDay(), formatter);
+        Person person = new Person(dto.getFirstName(), dto.getLastName(), dto.getBirthDay());
         if (!StringUtils.isEmpty(dto.getId())) {
             person.setId(dto.getId());
         }

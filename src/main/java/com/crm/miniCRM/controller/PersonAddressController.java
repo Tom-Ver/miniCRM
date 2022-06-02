@@ -1,10 +1,7 @@
 package com.crm.miniCRM.controller;
 
 
-import com.crm.miniCRM.dto.AddressDto;
-import com.crm.miniCRM.dto.MemberDto;
 import com.crm.miniCRM.dto.PersonAddressDto;
-import com.crm.miniCRM.dto.PersonDto;
 import com.crm.miniCRM.model.*;
 import com.crm.miniCRM.model.persistence.*;
 import org.springframework.stereotype.Controller;
@@ -54,11 +51,11 @@ public class PersonAddressController {
         model.addAttribute("personaddress", new PersonAddressDto());
         return "new-personaddress";
     }
-    @PostMapping
+    /*@PostMapping
     public String addPersonAddress(PersonAddressDto personAddressDto) {
         personAddressService.save(convertToEntity(personAddressDto));
         return "redirect:/personaddresses";
-    }
+    }*/
 
     //Edit the PersonAddress
     @GetMapping("/edit/{person_ID}/{address_ID}")
@@ -73,6 +70,16 @@ public class PersonAddressController {
         }
         return "edit-personaddress";
     }
+    @PostMapping
+    public String editPersonAddress(PersonAddressDto dto){
+    Iterable<PersonAddress> personAddresses = personAddressService.findByPersonId(dto.getPerson_ID());
+    PersonAddress personAddressToEdit = personAddresses.iterator().next();
+    personAddressService.delete(personAddressToEdit);
+    PersonAddress personAddressEdited = convertToEntity(dto);
+    personAddressService.save(personAddressEdited);
+    return "redirect:/personaddresses";
+    }
+
 
 
     protected PersonAddressDto convertToDto(PersonAddress entity) {

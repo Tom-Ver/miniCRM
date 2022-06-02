@@ -11,7 +11,7 @@ public class PersonDto {
 
     private String firstName;
     private String lastName;
-    private String birthDay;
+    private LocalDate birthDay;
 
 
 
@@ -41,15 +41,15 @@ public class PersonDto {
         this.lastName = lastName;
     }
 
-    public String getBirthDay() {
+    public LocalDate getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(String birthDay) {
+    public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
 
-    public PersonDto(Long id, String firstName, String lastName, String birthDay) {
+    public PersonDto(Long id, String firstName, String lastName, LocalDate birthDay) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
