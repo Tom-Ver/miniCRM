@@ -73,8 +73,9 @@ public class PersonAddressController {
     @PostMapping
     public String editPersonAddress(PersonAddressDto dto){
     Iterable<PersonAddress> personAddresses = personAddressService.findByPersonId(dto.getPerson_ID());
+    if(personAddresses.iterator().hasNext()){
     PersonAddress personAddressToEdit = personAddresses.iterator().next();
-    personAddressService.delete(personAddressToEdit);
+    personAddressService.delete(personAddressToEdit);}
     PersonAddress personAddressEdited = convertToEntity(dto);
     personAddressService.save(personAddressEdited);
     return "redirect:/personaddresses";
