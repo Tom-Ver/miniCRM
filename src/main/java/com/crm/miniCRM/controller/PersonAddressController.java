@@ -29,7 +29,7 @@ public class PersonAddressController {
         this.addressService = addressService;
     }
 
-    //List of all persons with their addresses
+    //List of all active persons with their addresses
     @GetMapping
     public String getPersonAddresses(Model model){
         Map<Long,String> personMap = getPersonMap();
@@ -44,6 +44,7 @@ public class PersonAddressController {
         return "personaddresses";
     }
 
+    //Add an already known person with an already known address
     @GetMapping("/new")
     public String addPersonWithAddress(Model model){
         List<Person> personList = getActivePersons();
@@ -59,6 +60,7 @@ public class PersonAddressController {
         return "redirect:/personaddresses";
     }
 
+    //Edit the PersonAddress
     @GetMapping("/edit/{person_ID}/{address_ID}")
     public String editPersonAddress(Model model, @PathVariable Long person_ID, @PathVariable Long address_ID){
         Optional<PersonAddress> optionalPersonAddress = personAddressService.findById(new PersonAddressID(person_ID, address_ID));
@@ -67,14 +69,10 @@ public class PersonAddressController {
         if(optionalPersonAddress.isPresent()){
             PersonAddress personAddress = optionalPersonAddress.get();
             model.addAttribute("personAddress", convertToDto(personAddress));
-            model.addAttribute("address", getAddressDescription(personAddress));
             model.addAttribute("name", getPersonName(personAddress));
         }
         return "edit-personaddress";
     }
-
-
-
 
 
     protected PersonAddressDto convertToDto(PersonAddress entity) {
@@ -96,6 +94,7 @@ public class PersonAddressController {
                 dto.getType());
         return personAddress;
     }
+
 
     protected Map<Long, String> getAddressMap() {
         Map<Long, String> addressMap = new HashMap<>();
