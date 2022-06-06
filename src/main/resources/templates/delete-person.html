@@ -39,7 +39,7 @@
 </nav>
 <div class="container ml-3 mt-4">
 
-    <h2>Delete member</h2>
+    <h2>Delete person</h2>
 
     <form th:action="@{/persons/delete}" th:object="${person}" method="post"
           class="mt-4">
@@ -49,20 +49,18 @@
             <input type="hidden" th:field="*{id}" id="id"
                    class="form-control col-sm-6 ml-2" placeholder="id" />
         </div>
-
         <div class="form-group row">
-            <label for="firstname col-form-label col-sm-2">Firstname</label>
+            <label for="firstname col-form-label col-sm-2">Firstname:&nbsp;</label>
             <input type="hidden" th:field="*{firstName}" th:text="*{firstName}" id="firstname"
                    class="form-control col-sm-6 ml-2" placeholder="firstname" />
         </div>
-
         <div class="form-group row">
-            <label for="lastname col-form-label col-sm-2">Lastname</label>
+            <label for="lastname col-form-label col-sm-2">Lastname:&nbsp;</label>
             <input type="hidden" th:field="*{lastName}" th:text="*{lastName}" id="lastname"
                    class="form-control col-sm-6 ml-2" placeholder="lastname" />
         </div>
         <div class="form-group row">
-            <label for="birthday col-form-label col-sm-2">Birthday</label>
+            <label for="birthday col-form-label col-sm-2">Birthday:&nbsp;</label>
             <input type="hidden" th:field="*{birthDay}" th:text="*{birthDay}" id="birthDay"
                    class="form-control col-sm-6 ml-2" placeholder="birthDay" />
         </div>
