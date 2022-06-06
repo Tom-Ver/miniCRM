@@ -2,6 +2,13 @@ package com.crm.miniCRM;
 
 //https://spring.io/guides/gs/accessing-data-jpa/
 
+/*
+* Title:    Exam Assignment Java Gevorderd: MiniCrm
+* Author:   Klara Craninx & Tom Vervaeren (Base project by Paesen Mathy)
+* School:   UC Leuven-Limburg Campus Proximus
+* Lecturer: Paesen Mathy
+ */
+
 import com.crm.miniCRM.model.*;
 import com.crm.miniCRM.model.persistence.*;
 import org.slf4j.Logger;

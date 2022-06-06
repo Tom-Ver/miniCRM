@@ -19,19 +19,19 @@
                     <a class="nav-link" th:href="@{/persons/}">Persons</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/communities/}">Communities</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" th:href="@{/addresses/}">Addresses</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/events/}">Events</a>
+                    <a class="nav-link" th:href="@{/personaddresses/}">Personaddresses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/communities/}">Communities</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/members/}">Memberships</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/personaddresses/}">Personaddresses</a>
+                    <a class="nav-link" th:href="@{/events/}">Events</a>
                 </li>
             </ul>
         </div>
@@ -47,7 +47,7 @@
           class="mt-4">
         <div class="form-group row" hidden>
             <label for="id col-form-label col-sm-2">id</label>
-            <input type="hidden" th:field="*{id}" id="id"
+            <input type="hidden" th:field="*{id}" id="id col-form-label col-sm-2"
                    class="form-control col-sm-6 ml-2" placeholder="id" />
         </div>
         <div class="form-group row">
@@ -57,7 +57,7 @@
         </div>
         <div class="form-group row">
             <label for="number col-form-label col-sm-2">Number:&nbsp;</label>
-            <input type="hidden" th:field="*{number}" th:text="*{number}" id="Number"
+            <input type="hidden" th:field="*{number}" th:text="*{number}" id="number col-form-label col-sm-2"
                    class="form-control col-sm-6 ml-2" placeholder="number" />
         </div>
         <div class="form-group row">
@@ -67,7 +67,7 @@
         </div>
         <div class="form-group row">
             <label for="city col-form-label col-sm-2">City:&nbsp;</label>
-            <input type="hidden" th:field="*{city}" th:text="*{city}" id="city col-form-label col-sm-2 col-form-label col-sm-2"
+            <input type="hidden" th:field="*{city}" th:text="*{city}" id="city col-form-label col-sm-2"
                    class="form-control col-sm-6 ml-2" placeholder="city" />
         </div>
         <div class="form-group row">
