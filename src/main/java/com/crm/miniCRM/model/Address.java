@@ -134,4 +134,10 @@ public class Address {
                 country;
 
     }
+    public String toStringForLabelsPersonAddress() {
+        return  street +" "+ number +" "+ box +"\n"+
+                zip +" "+ city +"\n"+
+                country;
+
+    }
 }

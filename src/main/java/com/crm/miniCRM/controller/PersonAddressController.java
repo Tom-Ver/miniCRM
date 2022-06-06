@@ -6,10 +6,8 @@ import com.crm.miniCRM.model.*;
 import com.crm.miniCRM.model.persistence.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 
@@ -81,6 +79,18 @@ public class PersonAddressController {
     return "redirect:/personaddresses";
     }
 
+    @RequestMapping(path = "/report", method = RequestMethod.GET)
+    public ModelAndView report() {
+        Map<String, Object> model = new HashMap<>();
+        Iterable<PersonAddress> personAddresses = personAddressService.findAll();
+        model.put("personaddress", personAddresses);
+        Map<Long,String> personMap = getPersonMap();
+        model.put("personMap", personMap);
+        Map<Long, String> addressMap = getAddressLabelMap();
+        model.put("addressMap", addressMap);
+        return new ModelAndView(new LabelPdfView(), model);
+    }
+
 
 
     protected PersonAddressDto convertToDto(PersonAddress entity) {
@@ -108,6 +118,13 @@ public class PersonAddressController {
         Map<Long, String> addressMap = new HashMap<>();
         Iterable<Address> addresses = addressService.findAll();
         addresses.forEach(a -> addressMap.put(a.getId(), a.toStringForPersonAddress()));
+        return addressMap;
+    }
+
+    protected Map<Long, String> getAddressLabelMap() {
+        Map<Long, String> addressMap = new HashMap<>();
+        Iterable<Address> addresses = addressService.findAll();
+        addresses.forEach(a -> addressMap.put(a.getId(), a.toStringForLabelsPersonAddress()));
         return addressMap;
     }
 
