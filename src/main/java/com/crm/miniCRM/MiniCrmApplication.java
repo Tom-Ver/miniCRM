@@ -21,6 +21,8 @@ import org.springframework.context.annotation.Bean;
 import java.time.LocalDate;
 import java.util.Optional;
 
+
+//https://attacomsian.com/blog/spring-boot-upload-parse-csv-file
 @SpringBootApplication
 public class MiniCrmApplication {
 
@@ -165,10 +167,10 @@ public class MiniCrmApplication {
     }
 
     private static void extractPersons(PersonRepository personRepository) {
-        personRepository.save(new Person("Jack", "Bauer", LocalDate.of(1963, 6, 29)));
-        personRepository.save(new Person("Kim", "Bauer", LocalDate.of(1973, 4, 29)));
-        personRepository.save(new Person("David", "Palmer", LocalDate.of(1983, 10, 24)));
-        personRepository.save(new Person("Michelle", "Dessler", LocalDate.of(1993, 7, 29)));
+        personRepository.save(new Person("Jack", "Bauer", "1963-6-29"));
+        personRepository.save(new Person("Kim", "Bauer", "1963-6-24"));
+        personRepository.save(new Person("David", "Palmer", "1963-9-29"));
+        personRepository.save(new Person("Michelle", "Dessler", "1963-11-29"));
 
         // fetch all persons
         log.info("Persons found with findAll():");

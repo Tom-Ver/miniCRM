@@ -34,18 +34,25 @@ public class Person {
 
     private String firstName;
     private String lastName;
-    private LocalDate birthDay;
+    private String birthDay;
 
     private Boolean active;
 
-    protected Person() {
+    public Person() {
     }
 
-    public Person(String firstName, String lastName, LocalDate birthDay) {
+    public Person(String firstName, String lastName, String birthDay) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;
         this.active = true;
+    }
+
+    public Person(Long id, String firstName, String lastName, String birthDay) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDay = birthDay;
     }
 
     @Override
@@ -79,11 +86,11 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public LocalDate getBirthDay() {
+    public String getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(LocalDate birthDay) {
+    public void setBirthDay(String birthDay) {
         this.birthDay = birthDay;
     }
 
